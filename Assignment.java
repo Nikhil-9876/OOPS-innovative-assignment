@@ -65,12 +65,16 @@ class show{
         sc.close();
     } 
 
-    String gettitle(){
+    public String gettitle(){
         return this.title;
     }
-    String gettime(){
+    public String gettime(){
         return this.time;
     }
+    int getavailableseats(){
+        return this.availableseats;
+    }
+
 
     void printseatmatrix(){
         System.out.println("1=Reserved seat and 0=available seat");
@@ -95,15 +99,78 @@ class show{
 
 }
 
+// Movie class inheriting from Show
+// class Movie extends Show {
+//     public Movie(String title, int duration, int availableSeats) {
+//         super(title, duration, availableSeats);
+//     }
+
+//     @Override
+//     public void showDetails() {
+//         System.out.println("Movie: "+gettitle);
+//         System.out.println("Time: "+gettime());
+//         System.out.println("Duration: "+duration+" minutes");
+//         System.out.println("Available seats: "+availableseats);
+//         System.out.println("Seat matrix: \n");
+//         printseatmatrix();
+//     }
+// }
+
+class cinema{
+    String name;
+    ArrayList<show> shows;
+
+    cinema(String name){
+        this.name=name;
+        this.shows=new ArrayList<>();
+    }
+    void addshow(show s){
+        shows.add(s);
+    }
+
+    void printallshows(){
+        for(int i=0;i<shows.size();i++){
+            System.out.println("Show "+(i+1)+":");
+            shows.get(i).displayshow();
+        }
+    }
+
+    void printshowsbyname(String name){
+        int c=0;
+        for(int i=0;i<shows.size();i++){
+            if(shows.get(i).title.equals(name)){
+                shows.get(i).displayshow();
+                c++;
+            }
+        }
+        if(c==0) System.out.println("No shows for the movie you a looking for");
+    }
+
+    void printshowsbytime(String time){
+        int c=0;
+        for(int i=0;i<shows.size();i++){
+            if(shows.get(i).time.equals(time)){
+                shows.get(i).displayshow();
+                c++;
+            }
+        }
+        if(c==0) System.out.println("No shows for the timespan you a looking for");
+    }
+
+}
 
 
 public class Assignment {
     public static void main(String args[]){
-        ArrayList <show> shows=new ArrayList<>();//to be declared in cinema
+        // ArrayList <show> shows=new ArrayList<>();//to be declared in cinema
+        cinema cinema = new cinema("Cineplex");
         Scanner sc = new Scanner(System.in);
         Boolean cond = true;
         String identity;
+        int f=0,f1=0;
         while(cond){
+            if(f!=0) sc.nextLine();
+            f++;
             Boolean condUser=true, condAdmin=true;
             System.out.println("Admin or User or Exit ? ");
             identity = sc.nextLine();
@@ -147,8 +214,10 @@ public class Assignment {
                 //         System.out.println("Password Incorrect ! Could not login !");
                 //     }
                 // }
-
+                
                 while(condAdmin){
+                    if(f1!=0) sc.nextLine();
+                    f1++;
                     String choice;
                     System.out.println("Add movie, delete movie, display movie, exit ? ");//choose the operation to do
                     choice=sc.nextLine();
@@ -166,24 +235,25 @@ public class Assignment {
                         occupiedseats=49-availableSeats;
                         show s = new show(title,duration,availableSeats,time,occupiedseats);
                         // s.displayshow();
-                        shows.add(s);
+                        cinema.addshow(s);
+                        sc.nextLine();
                     }else if(choice.equals("delete")){
                         String title,time;
                         System.out.println("Enter title of the movie : ");//method to delete movie in cinema
                         title = sc.nextLine();
                         System.out.println("Enter time of the movie : ");
                         time = sc.nextLine();
-                        for(int i=0;i<shows.size();i++){
-                            String  showtitle = shows.get(i).gettitle();
-                            String  showtime = shows.get(i).gettime();
+                        for(int i=0;i<cinema.shows.size();i++){
+                            String  showtitle = cinema.shows.get(i).gettitle();
+                            String  showtime = cinema.shows.get(i).gettime();
                             if(showtime==time && showtitle==title){
-                                shows.remove(i);
+                                cinema.shows.remove(i);
                             }
                         }
                     }else if(choice.equals("display")){
-                        for(int i=0;i<shows.size();i++){
+                        for(int i=0;i<cinema.shows.size();i++){
                             System.out.println("----------------------");
-                            show s=shows.get(i);// method to be declared inside cinema class
+                            show s=cinema.shows.get(i);// method to be declared inside cinema class
                             s.displayshow();
                         }
                     }else{
