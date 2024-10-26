@@ -37,25 +37,6 @@ ALL MOVIE ARE OF LES THAN OR EQUAL TO 3 HRS
 11 PM (2 5)
  */
 
-// class Movie{
-//     String movies[] = new String[5];
-
-// }
-
-// class show extends Movie{
-//     String title;
-//     int availableSeats; // total 36 seats
-//     int duration; // mins
-//     String time;
-
-//     show(){
-//         int j=4;
-//         while(j>=0){
-//             System.out.println(this.movies[4-j] + " " + " ");
-//         }
-//     }
-// }
-
 class show{
     String title;
     int duration;
@@ -64,14 +45,13 @@ class show{
     int Screen;
     int seatmatrix[][] = new int[7][7];
 
-
     show(String title,int duration,int availableseats,String time,int occupiedseats,int Screen,Scanner sc){
         this.title=title;
         this.duration=duration;
         this.time=time;
         this.availableseats=availableseats;
         this.Screen = Screen;
-        if(occupiedseats!=0)System.out.println("Enter coordinates of reserved seats:");
+        if(occupiedseats!=0)System.out.println("Enter coordinates of not available seats : ");
         if(occupiedseats!=0){
             for(int i=0;i<occupiedseats;i++){
                 System.out.println("enter row no. and column no. [7*7]:");
@@ -83,17 +63,6 @@ class show{
         }
     } 
 
-    // public String gettitle(){
-    //     return this.title;
-    // }
-    // public String gettime(){
-    //     return this.time;
-    // }
-    // int getavailableseats(){
-    //     return this.availableseats;
-    // }
-
-
     void printseatmatrix(){
         System.out.println("1=Reserved seat and 0=available seat");
         System.out.println( " ___________ \n"); // seat matrix screen
@@ -103,6 +72,33 @@ class show{
             }   
             System.out.println();
             System.out.println();
+        }
+    }
+
+    void BookSeats(int seats){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("1=Reserved seat and 0=available seat");
+        System.out.println( " ___________ \n"); // seat matrix screen
+        for(int i=0;i<7;i++){
+            for(int j=0;j<7;j++){
+                System.out.print(seatmatrix[i][j]+" ");
+            }   
+            System.out.println();
+            System.out.println();
+        }
+        while(seats>0){
+            System.out.println("Enter Row of the seat you want to choose : ");
+            int row = sc.nextInt();
+            System.out.println("Enter Column of the seat you want to choose : ");
+            int column = sc.nextInt();
+            if(seatmatrix[row-1][column-1]==1){
+                System.out.println("The seat is already Booked.");
+                System.out.println("Book another seat !");
+            }else{
+                availableseats-=1;
+                seatmatrix[row-1][column-1]=1;
+                seats-=1;
+            }
         }
     }
 
@@ -183,6 +179,51 @@ class Theatre{
         shows.get(i).Screen = sc.nextInt();
     }
 
+    void movieList(){
+        ArrayList<String> m = new ArrayList<String>();
+        for(int i=0;i<shows.size();i++){
+            Boolean x=false;
+            for(int j=0;j<m.size();j++){
+                if(shows.get(i).title.equals(m.get(j))){
+                    x=true;
+                    break;
+                }
+            }
+            if(!x){
+                m.add(shows.get(i).title);
+            }
+        }
+        System.out.println("Movie list : ");
+        for(int i=0;i<m.size();i++){
+            System.out.println((i+1)+". "+m.get(i));
+        }
+        System.out.println();
+    }
+
+    int Booking(String MovieName, String Time){
+        Scanner sc = new Scanner(System.in);
+        for(int i=0;i<shows.size();i++){
+            if(shows.get(i).title.equals(MovieName) && shows.get(i).time.equals(Time)){
+                if(shows.get(i).availableseats == 0){
+                    System.out.println("Sorry, No seats available");
+                    return 0;
+                }else{
+                    System.out.println("How many Seats do you want ? ");
+                    int seats = sc.nextInt();
+                    if(seats > shows.get(i).availableseats){
+                        System.out.println("Sorry only "+shows.get(i).availableseats+" seats not available !");
+                        return 0;
+                    }else{
+                        shows.get(i).BookSeats(seats);
+                        return 2;
+                    }
+                }
+            }
+        }
+        System.out.println("Entered Movie name or Time is Wrong.");
+        return 1;
+    }
+
 }
 
 
@@ -197,30 +238,30 @@ public class Assignment {
             System.out.println("Admin or User or Exit ? ");
             identity = sc.next();
             if(identity.equals("admin")){ // if person is admin
-                // System.out.println("Enter password to login : ");
-                // check admin = new check();
-                // admin.password=sc.nextLine();
-                // Boolean x = admin.login();// if password then x=true
-                // if(x){
-                //     System.out.println("Logged in successfully !");
-                // }
-                // else{ // try once again
-                //     condAdmin=false;
-                //     System.out.println("Password Incorrect ! Try again. ");
-                //     System.out.println("Enter password to login : ");
-                //     admin.password=sc.nextLine();
-                //     x = admin.login(); // if password correct then x=true
-                //     if(x){
-                //         System.out.println("Logged in successfully !");
-                //         condAdmin=true;
-                //     }else{ // out of attempts
-                //         System.out.println("Password Incorrect ! Could not login !");
-                //     }
-                // }
+                System.out.println("Enter password to login : ");
+                check admin = new check();
+                admin.password=sc.next();
+                Boolean x = admin.login();// if password then x=true
+                if(x){
+                    System.out.println("Logged in successfully !");
+                }
+                else{ // try once again
+                    condAdmin=false;
+                    System.out.println("Password Incorrect ! Try again. ");
+                    System.out.println("Enter password to login : ");
+                    admin.password=sc.next();
+                    x = admin.login(); // if password correct then x=true
+                    if(x){
+                        System.out.println("Logged in successfully !");
+                        condAdmin=true;
+                    }else{ // out of attempts
+                        System.out.println("Password Incorrect ! Could not login !");
+                    }
+                }
                 
                 while(condAdmin){
                     String choice;
-                    System.out.println("Add movie, delete movie, display movie, Change movie, exit ? ");//choose the operation to do
+                    System.out.println("Add movie, delete movie, display movie, Change movie, exit ? "); // choose the operation to do
                     choice=sc.next();
                     if(choice.equals("add")){
                         String title,time;
@@ -273,7 +314,19 @@ public class Assignment {
             }else if(identity.equals("user")){ // if person is user
                 System.out.println("user");
                 while(condUser){
-                    
+                    cinema.movieList();
+                    // sc.nextLine();
+                    System.out.println("Choose a movie you want to watch : ");
+                    String choiceMovie = sc.nextLine();
+                    cinema.printshowsbyname(choiceMovie);
+                    System.out.println("Enter Time of the show : ");
+                    String choiceTime = sc.nextLine();
+                    int booked  = cinema.Booking(choiceMovie, choiceTime);
+                    if(booked==1){
+                        System.out.println("Try Again ");
+                    }else{
+                        condUser=false;
+                    }
                 }
             }else{
                 cond=false;
