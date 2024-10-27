@@ -37,6 +37,7 @@ ALL MOVIE ARE OF LES THAN OR EQUAL TO 3 HRS
 11 PM (2 5)
  */
 
+
 class show{
     String title;
     int duration;
@@ -44,6 +45,15 @@ class show{
     String time;
     int Screen;
     int seatmatrix[][] = new int[7][7];
+
+    ArrayList<String> mName = new ArrayList<String>();
+    ArrayList<String> mTime = new ArrayList<String>();
+    ArrayList<String> uName = new ArrayList<String>();
+    ArrayList<String> uNum = new ArrayList<String>();
+    ArrayList<Integer> mTotalSeats = new ArrayList<Integer>();
+    ArrayList<Integer> mScreen = new ArrayList<Integer>();
+    ArrayList<ArrayList<Integer>> mRows = new ArrayList<ArrayList<Integer>>();
+    ArrayList<ArrayList<Integer>> mCols = new ArrayList<ArrayList<Integer>>();
 
     show(String title,int duration,int availableseats,String time,int occupiedseats,int Screen,Scanner sc){
         this.title=title;
@@ -75,17 +85,11 @@ class show{
         }
     }
 
-    void BookSeats(int seats){
+    void BookSeats(int seats, String n){
         Scanner sc = new Scanner(System.in);
-        System.out.println("1=Reserved seat and 0=available seat");
-        System.out.println( " ___________ \n"); // seat matrix screen
-        for(int i=0;i<7;i++){
-            for(int j=0;j<7;j++){
-                System.out.print(seatmatrix[i][j]+" ");
-            }   
-            System.out.println();
-            System.out.println();
-        }
+        printseatmatrix();
+        ArrayList<Integer> R = new ArrayList<Integer>();
+        ArrayList<Integer> C = new ArrayList<Integer>();
         while(seats>0){
             System.out.println("Enter Row of the seat you want to choose : ");
             int row = sc.nextInt();
@@ -98,6 +102,30 @@ class show{
                 availableseats-=1;
                 seatmatrix[row-1][column-1]=1;
                 seats-=1;
+                R.add(row);
+                C.add(column);
+            }
+        }   
+        mRows.add(R);
+        mCols.add(C);
+        System.out.println("Booking Successfull !");
+        this.generatingBillForUser(n);
+    }
+
+    void generatingBillForUser(String hisName){
+        int i=0;
+        for(;i<uName.size();i++){
+            if(uName.get(i).equals(hisName)){
+                System.out.println("Name : " + uName.get(i));
+                System.out.println("Number : " + uNum.get(i));
+                System.out.println("Movie Name : " + title);
+                System.out.println("Movie Time : " + time);
+                System.out.println("Screen of the show : " + Screen);
+                System.out.println("Total Seats Booked : "+mTotalSeats.get(i));
+                System.out.println("Seats : ");
+                for(int j=0;j<mRows.get(i).size();j++){
+                    System.out.println("row : " + mRows.get(i).get(j) +", Column : " + mCols.get(i).get(j));
+                }
             }
         }
     }
@@ -214,7 +242,18 @@ class Theatre{
                         System.out.println("Sorry only "+shows.get(i).availableseats+" seats not available !");
                         return 0;
                     }else{
-                        shows.get(i).BookSeats(seats);
+                        sc.nextLine();
+                        System.out.println("Enter your name : ");
+                        String userName=sc.nextLine();
+                        shows.get(i).uName.add(userName);
+                        System.out.println("Enter your number : ");
+                        String userNumber=sc.nextLine();
+                        shows.get(i).uNum.add(userNumber);
+                        shows.get(i).mName.add(shows.get(i).title);
+                        shows.get(i).mTime.add(shows.get(i).time);
+                        shows.get(i).mTotalSeats.add(seats);
+                        shows.get(i).mScreen.add(shows.get(i).Screen);
+                        shows.get(i).BookSeats(seats, userName);
                         return 2;
                     }
                 }
@@ -224,6 +263,22 @@ class Theatre{
         return 1;
     }
 
+    void generatingBillForAdmin() {
+        for (int i = 0; i < shows.size(); i++) {
+            for (int j = 0; j < shows.get(i).uName.size(); j++) {
+                System.out.println("User's name: " + shows.get(i).uName.get(j));
+                System.out.println("User's number: " + shows.get(i).uNum.get(j));
+                System.out.println("User's Movie: " + shows.get(i).mName.get(j));
+                System.out.println("User's Time of movie: " + shows.get(i).mTime.get(j));
+                System.out.println("User's Booked total seats: " + shows.get(i).mTotalSeats.get(j));
+                System.out.println("User's Screen: " + shows.get(i).mScreen.get(j));
+                for (int z = 0; z < shows.get(i).mRows.get(j).size(); z++) {
+                    System.out.println("Row: " + shows.get(i).mRows.get(j).get(z) + ", Column: " + shows.get(i).mCols.get(j).get(z));
+                }
+            }
+            System.out.println();
+        }
+    }
 }
 
 
@@ -261,12 +316,12 @@ public class Assignment {
                 
                 while(condAdmin){
                     String choice;
+                    sc.nextLine();
                     System.out.println("Add movie, delete movie, display movie, Change movie, exit ? "); // choose the operation to do
-                    choice=sc.next();
+                    choice=sc.nextLine();
                     if(choice.equals("add")){
                         String title,time;
                         int duration,availableSeats,occupiedseats, Screen;
-                        sc.nextLine();
                         System.out.println("Enter title of the movie : ");
                         title = sc.nextLine();
                         System.out.println("Enter time of the movie : ");
@@ -298,7 +353,9 @@ public class Assignment {
                             System.out.println("----------------------");
                             show s=cinema.shows.get(i);// method to be declared inside cinema class
                             s.displayshow();
+                            System.out.println();
                         }
+                        cinema.generatingBillForAdmin();
                     }else if(choice.equals("change")){
                         System.out.println("Enter movie name : ");
                         String chngName = sc.nextLine();
@@ -312,10 +369,9 @@ public class Assignment {
                     }
                 }
             }else if(identity.equals("user")){ // if person is user
-                System.out.println("user");
                 while(condUser){
                     cinema.movieList();
-                    // sc.nextLine();
+                    sc.nextLine();
                     System.out.println("Choose a movie you want to watch : ");
                     String choiceMovie = sc.nextLine();
                     cinema.printshowsbyname(choiceMovie);
