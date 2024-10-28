@@ -160,7 +160,7 @@ class Theatre{
         }
     }
 
-    void printshowsbyname(String name){
+    int printshowsbyname(String name){
         int c=0;
         for(int i=0;i<shows.size();i++){
             if(shows.get(i).title.equals(name)){
@@ -168,7 +168,12 @@ class Theatre{
                 c++;
             }
         }
-        if(c==0) System.out.println("No shows for the movie you a looking for");
+        if(c==0) {
+            System.out.println("No shows for the movie you a looking for");
+            return 0;
+        }else{
+            return 1;
+        }
     }
 
     void printshowsbyScreen(int Screen){
@@ -239,14 +244,14 @@ class Theatre{
                     System.out.println("How many Seats do you want ? ");
                     int seats = sc.nextInt();
                     if(seats > shows.get(i).availableseats){
-                        System.out.println("Sorry only "+shows.get(i).availableseats+" seats not available !");
+                        System.out.println("Sorry only "+shows.get(i).availableseats+" seats are available !");
                         return 0;
                     }else{
                         sc.nextLine();
                         System.out.println("Enter your name : ");
                         String userName=sc.nextLine();
                         shows.get(i).uName.add(userName);
-                        System.out.println("Enter your number : ");
+                        System.out.println("Enter your phone number : ");
                         String userNumber=sc.nextLine();
                         shows.get(i).uNum.add(userNumber);
                         shows.get(i).mName.add(shows.get(i).title);
@@ -361,7 +366,7 @@ public class Assignment {
                         String chngName = sc.nextLine();
                         System.out.println("Enter movie time : ");
                         String chngTime = sc.nextLine();
-                        System.out.println("Enter movie name : ");
+                        System.out.println("Enter movie screen : ");
                         int chngScreen = sc.nextInt();
                         cinema.change(chngName, chngTime, chngScreen);
                     }else{
@@ -369,12 +374,15 @@ public class Assignment {
                     }
                 }
             }else if(identity.equals("user")){ // if person is user
+                int f=0;
                 while(condUser){
                     cinema.movieList();
-                    sc.nextLine();
+                    if(f==0) sc.nextLine();
+                    f++;
                     System.out.println("Choose a movie you want to watch : ");
                     String choiceMovie = sc.nextLine();
-                    cinema.printshowsbyname(choiceMovie);
+                    int x=cinema.printshowsbyname(choiceMovie);
+                    if(x==0) continue;
                     System.out.println("Enter Time of the show : ");
                     String choiceTime = sc.nextLine();
                     int booked  = cinema.Booking(choiceMovie, choiceTime);
