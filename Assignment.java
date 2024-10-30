@@ -54,6 +54,7 @@ class show{
     ArrayList<Integer> mScreen = new ArrayList<Integer>();
     ArrayList<ArrayList<Integer>> mRows = new ArrayList<ArrayList<Integer>>();
     ArrayList<ArrayList<Integer>> mCols = new ArrayList<ArrayList<Integer>>();
+    ArrayList<Integer> payment = new ArrayList<Integer>();
 
     show(String title,int duration,int availableseats,String time,int occupiedseats,int Screen,Scanner sc){
         this.title=title;
@@ -109,7 +110,6 @@ class show{
         mRows.add(R);
         mCols.add(C);
         System.out.println("Booking Successfull !");
-        this.generatingBillForUser(n);
     }
 
     void generatingBillForUser(String hisName){
@@ -126,6 +126,8 @@ class show{
                 for(int j=0;j<mRows.get(i).size();j++){
                     System.out.println("row : " + mRows.get(i).get(j) +", Column : " + mCols.get(i).get(j));
                 }
+                System.out.println("Payment: Rs" + payment.get(i));
+                System.out.println("Pay on this UPI id: 98XXXXXX21@hdfcbank");
             }
         }
     }
@@ -162,9 +164,10 @@ class Theatre{
 
     int printshowsbyname(String name){
         int c=0;
+        System.out.println("These are the available showtimes:");
         for(int i=0;i<shows.size();i++){
             if(shows.get(i).title.equals(name)){
-                shows.get(i).displayshow();
+                System.out.println("Time:"+shows.get(i).time);
                 c++;
             }
         }
@@ -175,36 +178,19 @@ class Theatre{
             return 1;
         }
     }
-
-    void printshowsbyScreen(int Screen){
-        int c=0;
-        for(int i=0;i<shows.size();i++){
-            if(shows.get(i).Screen==Screen){
-                shows.get(i).displayshow();
-                c++;
-            }
-        }
-        if(c==0) System.out.println("No shows for the movie you a looking for");
-    }
-
-    void printshowsbytime(String time){
-        int c=0;
-        for(int i=0;i<shows.size();i++){
-            if(shows.get(i).time.equals(time)){
-                shows.get(i).displayshow();
-                c++;
-            }
-        }
-        if(c==0) System.out.println("No shows for the timespan you a looking for");
-    }
-
+    
     void change(String name, String time, int screen){
         Scanner sc = new Scanner(System.in);
-        int i=0;
+        int i=0,f=0;
         for(;i<shows.size();i++){
             if(shows.get(i).title.equals(name) && shows.get(i).time.equals(time) && shows.get(i).Screen==screen){
+                f=1;
                 break;
             }
+        }
+        if(f==0){
+            System.out.println("show not found!");
+            return;
         }
         System.out.println("Enter new time of the movie : ");
         shows.get(i).time = sc.nextLine();
@@ -259,6 +245,8 @@ class Theatre{
                         shows.get(i).mTotalSeats.add(seats);
                         shows.get(i).mScreen.add(shows.get(i).Screen);
                         shows.get(i).BookSeats(seats, userName);
+                        shows.get(i).payment.add(seats*300);
+                        shows.get(i).generatingBillForUser(userName);
                         return 2;
                     }
                 }
@@ -280,6 +268,7 @@ class Theatre{
                 for (int z = 0; z < shows.get(i).mRows.get(j).size(); z++) {
                     System.out.println("Row: " + shows.get(i).mRows.get(j).get(z) + ", Column: " + shows.get(i).mCols.get(j).get(z));
                 }
+                System.out.println("User's Payment: Rs" + shows.get(i).payment.get(j));
             }
             System.out.println();
         }
@@ -347,11 +336,14 @@ public class Assignment {
                         title = sc.nextLine();
                         System.out.println("Enter time of the movie : ");
                         time = sc.nextLine();
+                        int f=0;
                         for(int i=0;i<cinema.shows.size();i++){
                             if(cinema.shows.get(i).time.equals(time) && cinema.shows.get(i).title.equals(title)){
                                 cinema.shows.remove(i);
+                                f=1;
                             }
                         }
+                        if(f==0) System.out.println("Show not found!");
                         // count of movire decrease krvanu baki
                     }else if(choice.equals("display")){
                         for(int i=0;i<cinema.shows.size();i++){
