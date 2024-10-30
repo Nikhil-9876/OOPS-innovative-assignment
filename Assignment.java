@@ -156,10 +156,26 @@ class Theatre{
     }
 
     void printallshows(){
+        int count=0;
         for(int i=0;i<shows.size();i++){
+            count++;
             System.out.println("Show "+(i+1)+":");
             shows.get(i).displayshow();
         }
+        if(count==0){
+            System.out.println("No shows available !");
+        }
+    }
+
+    void printshowsbyName(String name){
+        int c=0;
+        for(int i=0;i<shows.size();i++){
+            if(shows.get(i).title.equals(name)){
+                shows.get(i).displayshow();
+                c++;
+            }
+        }
+        if(c==0) System.out.println("No shows for the movie you are looking for");
     }
 
     int printshowsbyname(String name){
@@ -179,6 +195,29 @@ class Theatre{
         }
     }
     
+    void printshows(int Screen){
+        int c=0;
+        for(int i=0;i<shows.size();i++){
+            if(shows.get(i).Screen==Screen){
+                shows.get(i).displayshow();
+                c++;
+            }
+        }
+        if(c==0) System.out.println("No shows for the screen you are looking for");
+    }
+
+    void printshows(String time){
+        int c=0;
+        for(int i=0;i<shows.size();i++){
+            if(shows.get(i).time.equals(time)){
+                shows.get(i).displayshow();
+                c++;
+            }
+        }
+        if(c==0) System.out.println("No shows for the time you are looking for");
+    }
+
+
     void change(String name, String time, int screen){
         Scanner sc = new Scanner(System.in);
         int i=0,f=0;
@@ -196,6 +235,13 @@ class Theatre{
         shows.get(i).time = sc.nextLine();
         System.out.println("Enter new Screen of the movie : ");
         shows.get(i).Screen = sc.nextInt();
+        for(int j=0;j<shows.get(i).uName.size();j++){
+            shows.get(i).mTime.set(j, shows.get(i).time);   // Use set to update the element
+            shows.get(i).mScreen.set(j, shows.get(i).Screen);
+        }
+        System.out.println();
+        System.out.println("Users have been notified about the changes !");
+        System.out.println();
     }
 
     void movieList(){
@@ -257,8 +303,10 @@ class Theatre{
     }
 
     void generatingBillForAdmin() {
+        int count=0;
         for (int i = 0; i < shows.size(); i++) {
             for (int j = 0; j < shows.get(i).uName.size(); j++) {
+                count++;
                 System.out.println("User's name: " + shows.get(i).uName.get(j));
                 System.out.println("User's number: " + shows.get(i).uNum.get(j));
                 System.out.println("User's Movie: " + shows.get(i).mName.get(j));
@@ -271,6 +319,9 @@ class Theatre{
                 System.out.println("User's Payment: Rs" + shows.get(i).payment.get(j));
             }
             System.out.println();
+        }
+        if(count==0){
+            System.out.println("No Bookings done yet !");
         }
     }
 }
@@ -287,24 +338,30 @@ public class Assignment {
             System.out.println("Admin or User or Exit ? ");
             identity = sc.next();
             if(identity.equals("admin")){ // if person is admin
+                System.out.println();
                 System.out.println("Enter password to login : ");
                 check admin = new check();
                 admin.password=sc.next();
                 Boolean x = admin.login();// if password then x=true
                 if(x){
+                    System.out.println();
                     System.out.println("Logged in successfully !");
                 }
                 else{ // try once again
                     condAdmin=false;
+                    System.out.println();
                     System.out.println("Password Incorrect ! Try again. ");
                     System.out.println("Enter password to login : ");
                     admin.password=sc.next();
                     x = admin.login(); // if password correct then x=true
                     if(x){
+                        System.out.println();
                         System.out.println("Logged in successfully !");
                         condAdmin=true;
                     }else{ // out of attempts
+                        System.out.println();
                         System.out.println("Password Incorrect ! Could not login !");
+                        System.out.println();
                     }
                 }
                 
@@ -329,6 +386,7 @@ public class Assignment {
                         occupiedseats=49-availableSeats;
                         show s = new show(title,duration,availableSeats,time,occupiedseats,Screen,sc);
                         cinema.addshow(s);
+                        System.out.println();
                     }else if(choice.equals("delete")){
                         String title,time;
                         sc.nextLine();
@@ -344,15 +402,39 @@ public class Assignment {
                             }
                         }
                         if(f==0) System.out.println("Show not found!");
-                        // count of movire decrease krvanu baki
+                        // count of movie decrease krvanu baki
                     }else if(choice.equals("display")){
-                        for(int i=0;i<cinema.shows.size();i++){
-                            System.out.println("----------------------");
-                            show s=cinema.shows.get(i);// method to be declared inside cinema class
-                            s.displayshow();
+                        System.out.println();
+                        System.out.println("Display show Bookings or shows ? ");
+                        String choiceD = sc.nextLine();
+                        if(choiceD.equals("bookings")){
                             System.out.println();
+                            cinema.generatingBillForAdmin();
+                        }else{
+                            // for(int i=0;i<cinema.shows.size();i++){
+                            //     System.out.println("----------------------");
+                            //     show s=cinema.shows.get(i);
+                            //     s.displayshow();
+                            //     System.out.println();
+                            // }
+                            System.out.println("Display all shows/ shows by movie name/ by screen/ by time ? ");
+                            String choiceOfDisplay = sc.nextLine();
+                            if(choiceOfDisplay.equals("all")){
+                                cinema.printallshows();
+                            }else if(choiceOfDisplay.equals("name")){
+                                System.out.println("Enter movie name : ");
+                                String displayName = sc.nextLine();
+                                cinema.printshowsbyName(displayName);
+                            }else if(choiceOfDisplay.equals("screen")){
+                                System.out.println("Enter Screen nnumber : ");
+                                int displayScreen = sc.nextInt();
+                                cinema.printshows(displayScreen);
+                            }else if(choiceOfDisplay.equals("time")){
+                                System.out.println("Enter movie name : ");
+                                String displayTime = sc.nextLine();
+                                cinema.printshows(displayTime);
+                            }
                         }
-                        cinema.generatingBillForAdmin();
                     }else if(choice.equals("change")){
                         System.out.println("Enter movie name : ");
                         String chngName = sc.nextLine();
