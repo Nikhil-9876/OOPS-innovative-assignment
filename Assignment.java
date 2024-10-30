@@ -16,6 +16,7 @@
 //     }
 // }
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -37,6 +38,30 @@ ALL MOVIE ARE OF LES THAN OR EQUAL TO 3 HRS
 11 PM (2 5)
  */
 
+class user{
+    String mName;
+    String mTime;
+    String uName;
+    String uNum;
+    int mTotalSeats;
+    int mScreen;
+    int payment;
+
+    user(){
+        mName=""; mTime=""; uName=""; uNum=""; 
+        mTotalSeats=0; mScreen=0; payment=0;
+    }
+
+    user(String mName, String mTime, String uName,String uNum,int mTotalSeats,int mScreen,int payment){
+        this.mName=mName;
+        this.mTime=mTime;
+        this.uName=uName;
+        this.uNum=uNum;
+        this.mTotalSeats=mTotalSeats;
+        this.mScreen=mScreen;
+        this.payment=payment;
+    }
+}
 
 class show{
     String title;
@@ -293,6 +318,17 @@ class Theatre{
                         shows.get(i).BookSeats(seats, userName);
                         shows.get(i).payment.add(seats*300);
                         shows.get(i).generatingBillForUser(userName);
+
+                        try {
+                            PrintWriter out = new PrintWriter(new FileWriter("users.csv", true));
+                            user us=new user(shows.get(i).title, shows.get(i).time,userName,userNumber,seats,shows.get(i).Screen,seats*300);
+                            out.printf("%s,%s,%s,%s,%d,%d,%d\n",us.mName,us.mTime,us.uName,us.uNum,us.mTotalSeats,us.mScreen,us.payment);       
+                            out.close();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }  catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         return 2;
                     }
                 }
@@ -329,6 +365,15 @@ class Theatre{
 
 public class Assignment {
     public static void main(String args[]){
+        
+        try {
+            PrintWriter out=new PrintWriter("users.csv");
+            out.printf("%s,%s,%s,%s,%s,%s,%s\n","Movie_Name","Movie_Time","User_Name","User_Number","Seats","Screen","payment");        
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } 
+
         Theatre cinema = new Theatre();
         Scanner sc = new Scanner(System.in);
         Boolean cond = true;
@@ -470,7 +515,5 @@ public class Assignment {
                 cond=false;
             }
         }
-        
-        sc.close();
     }
 }
