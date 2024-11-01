@@ -1,173 +1,9 @@
-
-// Movie class inheriting from Show
-// class Movie extends Show {
-//     public Movie(String title, int duration, int availableSeats) {
-//         super(title, duration, availableSeats);
-//     }
-
-//     @Override
-//     public void showDetails() {
-//         System.out.println("Movie: "+gettitle);
-//         System.out.println("Time: "+gettime());
-//         System.out.println("Duration: "+duration+" minutes");
-//         System.out.println("Available seats: "+availableseats);
-//         System.out.println("Seat matrix: \n");
-//         printseatmatrix();
-//     }
-// }
+// package main;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class check {
-    String password;
-    Boolean login(){
-        if(this.password.equals("admin@123")) return true;
-        return false;
-    }
-}
-/*
-MOVIE TIMINGS
-ALL MOVIE ARE OF LES THAN OR EQUAL TO 3 HRS
-2 SCREENS ONLY 
-7 AM (1 3)
-11 AM (2 4)
-3 PM (1 5)
-7 PM (3 4)
-11 PM (2 5)
- */
-
-class user{
-    String mName;
-    String mTime;
-    String uName;
-    String uNum;
-    int mTotalSeats;
-    int mScreen;
-    int payment;
-
-    user(){
-        mName=""; mTime=""; uName=""; uNum=""; 
-        mTotalSeats=0; mScreen=0; payment=0;
-    }
-
-    user(String mName, String mTime, String uName,String uNum,int mTotalSeats,int mScreen,int payment){
-        this.mName=mName;
-        this.mTime=mTime;
-        this.uName=uName;
-        this.uNum=uNum;
-        this.mTotalSeats=mTotalSeats;
-        this.mScreen=mScreen;
-        this.payment=payment;
-    }
-}
-
-class show{
-    String title;
-    int duration;
-    int availableseats;
-    String time;
-    int Screen;
-    int seatmatrix[][] = new int[7][7];
-
-    ArrayList<String> mName = new ArrayList<String>();
-    ArrayList<String> mTime = new ArrayList<String>();
-    ArrayList<String> uName = new ArrayList<String>();
-    ArrayList<String> uNum = new ArrayList<String>();
-    ArrayList<Integer> mTotalSeats = new ArrayList<Integer>();
-    ArrayList<Integer> mScreen = new ArrayList<Integer>();
-    ArrayList<ArrayList<Integer>> mRows = new ArrayList<ArrayList<Integer>>();
-    ArrayList<ArrayList<Integer>> mCols = new ArrayList<ArrayList<Integer>>();
-    ArrayList<Integer> payment = new ArrayList<Integer>();
-
-    show(String title,int duration,int availableseats,String time,int occupiedseats,int Screen,Scanner sc){
-        this.title=title;
-        this.duration=duration;
-        this.time=time;
-        this.availableseats=availableseats;
-        this.Screen = Screen;
-        if(occupiedseats!=0)System.out.println("Enter coordinates of not available seats : ");
-        if(occupiedseats!=0){
-            for(int i=0;i<occupiedseats;i++){
-                System.out.println("enter row no. and column no. [7*7]:");
-                int r=sc.nextInt();
-                int c=sc.nextInt();
-                sc.nextLine();
-                this.seatmatrix[r-1][c-1]=1;
-            }
-        }
-    } 
-
-    void printseatmatrix(){
-        System.out.println("1=Reserved seat and 0=available seat");
-        System.out.println( " ___________ \n"); // seat matrix screen
-        for(int i=0;i<7;i++){
-            for(int j=0;j<7;j++){
-                System.out.print(seatmatrix[i][j]+" ");
-            }   
-            System.out.println();
-            System.out.println();
-        }
-    }
-
-    void BookSeats(int seats, String n){
-        Scanner sc = new Scanner(System.in);
-        printseatmatrix();
-        ArrayList<Integer> R = new ArrayList<Integer>();
-        ArrayList<Integer> C = new ArrayList<Integer>();
-        while(seats>0){
-            System.out.println("Enter Row of the seat you want to choose : ");
-            int row = sc.nextInt();
-            System.out.println("Enter Column of the seat you want to choose : ");
-            int column = sc.nextInt();
-            if(seatmatrix[row-1][column-1]==1){
-                System.out.println("The seat is already Booked.");
-                System.out.println("Book another seat !");
-            }else{
-                availableseats-=1;
-                seatmatrix[row-1][column-1]=1;
-                seats-=1;
-                R.add(row);
-                C.add(column);
-            }
-        }   
-        mRows.add(R);
-        mCols.add(C);
-        System.out.println("Booking Successfull !");
-    }
-
-    void generatingBillForUser(String hisName){
-        int i=0;
-        for(;i<uName.size();i++){
-            if(uName.get(i).equals(hisName)){
-                System.out.println("Name : " + uName.get(i));
-                System.out.println("Number : " + uNum.get(i));
-                System.out.println("Movie Name : " + title);
-                System.out.println("Movie Time : " + time);
-                System.out.println("Screen of the show : " + Screen);
-                System.out.println("Total Seats Booked : "+mTotalSeats.get(i));
-                System.out.println("Seats : ");
-                for(int j=0;j<mRows.get(i).size();j++){
-                    System.out.println("row : " + mRows.get(i).get(j) +", Column : " + mCols.get(i).get(j));
-                }
-                System.out.println("Payment: Rs" + payment.get(i));
-                System.out.println("Pay on this UPI id: 98XXXXXX21@hdfcbank");
-            }
-        }
-    }
-
-    void displayshow(){
-        System.out.println("Movie: "+title);
-        System.out.println("Time: "+time);
-        System.out.println("Duration: "+duration+" minutes");
-        System.out.println("Screen : "+Screen);
-        System.out.println("Available seats: "+availableseats);
-        System.out.println("Seat matrix: \n");
-        printseatmatrix();
-    }
-
-}
 
 class Theatre{
     ArrayList<show> shows;
@@ -382,12 +218,11 @@ public class Assignment {
             Boolean condUser=true, condAdmin=true;
             System.out.println("Admin or User or Exit ? ");
             identity = sc.next();
-            if(identity.equals("admin")){ // if person is admin
-                System.out.println();
-                System.out.println("Enter password to login : ");
+            if(identity.equals("admin")) {
+                System.out.println("Enter password to login: ");
                 check admin = new check();
-                admin.password=sc.next();
-                Boolean x = admin.login();// if password then x=true
+                admin.password = sc.next();
+                boolean x = admin.login();// if password then x=true
                 if(x){
                     System.out.println();
                     System.out.println("Logged in successfully !");
@@ -456,12 +291,6 @@ public class Assignment {
                             System.out.println();
                             cinema.generatingBillForAdmin();
                         }else{
-                            // for(int i=0;i<cinema.shows.size();i++){
-                            //     System.out.println("----------------------");
-                            //     show s=cinema.shows.get(i);
-                            //     s.displayshow();
-                            //     System.out.println();
-                            // }
                             System.out.println("Display all shows/ shows by movie name/ by screen/ by time ? ");
                             String choiceOfDisplay = sc.nextLine();
                             if(choiceOfDisplay.equals("all")){
