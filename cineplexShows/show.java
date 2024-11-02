@@ -1,27 +1,27 @@
-// package show;
+package cineplexShows;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class show {
-    String title;
-    int duration;
-    int availableseats;
-    String time;
-    int Screen;
-    int seatmatrix[][] = new int[7][7];
+    public String title;
+    public int duration;
+    public int availableseats;
+    public String time;
+    public int Screen;
+    public int seatmatrix[][] = new int[7][7];
 
-    ArrayList<String> mName = new ArrayList<String>();
-    ArrayList<String> mTime = new ArrayList<String>();
-    ArrayList<String> uName = new ArrayList<String>();
-    ArrayList<String> uNum = new ArrayList<String>();
-    ArrayList<Integer> mTotalSeats = new ArrayList<Integer>();
-    ArrayList<Integer> mScreen = new ArrayList<Integer>();
-    ArrayList<ArrayList<Integer>> mRows = new ArrayList<ArrayList<Integer>>();
-    ArrayList<ArrayList<Integer>> mCols = new ArrayList<ArrayList<Integer>>();
-    ArrayList<Integer> payment = new ArrayList<Integer>();
+    public ArrayList<String> mName = new ArrayList<String>();
+    public ArrayList<String> mTime = new ArrayList<String>();
+    public ArrayList<String> uName = new ArrayList<String>();
+    public ArrayList<String> uNum = new ArrayList<String>();
+    public ArrayList<Integer> mTotalSeats = new ArrayList<Integer>();
+    public ArrayList<Integer> mScreen = new ArrayList<Integer>();
+    public ArrayList<ArrayList<Integer>> mRows = new ArrayList<ArrayList<Integer>>();
+    public ArrayList<ArrayList<Integer>> mCols = new ArrayList<ArrayList<Integer>>();
+    public ArrayList<Integer> payment = new ArrayList<Integer>();
 
-    show(String title,int duration,int availableseats,String time,int occupiedseats,int Screen,Scanner sc){
+    public show(String title,int duration,int availableseats,String time,int occupiedseats,int Screen,Scanner sc){
         this.title=title;
         this.duration=duration;
         this.time=time;
@@ -39,7 +39,7 @@ public class show {
         }
     } 
 
-    void printseatmatrix(){
+    public void printseatmatrix(){
         System.out.println("1=Reserved seat and 0=available seat");
         System.out.println( " ___________ \n"); // seat matrix screen
         for(int i=0;i<7;i++){
@@ -51,7 +51,7 @@ public class show {
         }
     }
 
-    void BookSeats(int seats, String n){
+    public void BookSeats(int seats, String n){
         Scanner sc = new Scanner(System.in);
         printseatmatrix();
         ArrayList<Integer> R = new ArrayList<Integer>();
@@ -77,7 +77,7 @@ public class show {
         System.out.println("Booking Successfull !");
     }
 
-    void generatingBillForUser(String hisName){
+    public void generatingBillForUser(String hisName){
         int i=0;
         for(;i<uName.size();i++){
             if(uName.get(i).equals(hisName)){
@@ -97,7 +97,7 @@ public class show {
         }
     }
 
-    void displayshow(){
+    public void displayshow(){
         System.out.println("Movie: "+title);
         System.out.println("Time: "+time);
         System.out.println("Duration: "+duration+" minutes");

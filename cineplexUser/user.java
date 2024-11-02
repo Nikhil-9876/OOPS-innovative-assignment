@@ -1,13 +1,12 @@
-
-
+package cineplexUser;
 public class user {
-    String mName;
-    String mTime;
-    String uName;
-    String uNum;
-    int mTotalSeats;
-    int mScreen;
-    int payment;
+    public String mName;
+    public String mTime;
+    public String uName;
+    public String uNum;
+    public int mTotalSeats;
+    public int mScreen;
+    public int payment;
 
     public user(){
         this.mName="";
