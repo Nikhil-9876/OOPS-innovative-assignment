@@ -1,15 +1,15 @@
-package main;
 
-import cineplexShows.*;
-import cineplexTheatre.*;
-import cineplexAdmin.*;
+import java.util.*;
+
+import cineplexShows.show;
+import cineplexTheatre.Theatre;
+import cineplexAdmin.check;
 
 import java.io.*;
 import java.util.Scanner;
 
 public class Assignment {
     public static void main(String args[]){
-        
         try {
             PrintWriter out=new PrintWriter("users.csv");
             out.printf("%s,%s,%s,%s,%s,%s,%s\n","Movie_Name","Movie_Time","User_Name","User_Number","Seats","Screen","payment");        
