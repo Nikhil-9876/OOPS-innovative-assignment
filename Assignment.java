@@ -108,11 +108,11 @@ public class Assignment {
                                 String displayName = sc.nextLine();
                                 cinema.printshowsbyName(displayName);
                             }else if(choiceOfDisplay.equals("screen")){
-                                System.out.println("Enter Screen nnumber : ");
+                                System.out.println("Enter Screen number : ");
                                 int displayScreen = sc.nextInt();
                                 cinema.printshows(displayScreen);
                             }else if(choiceOfDisplay.equals("time")){
-                                System.out.println("Enter movie name : ");
+                                System.out.println("Enter time : ");
                                 String displayTime = sc.nextLine();
                                 cinema.printshows(displayTime);
                             }

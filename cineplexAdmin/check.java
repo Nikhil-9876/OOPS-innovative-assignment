@@ -1,6 +1,10 @@
 package cineplexAdmin;
 
-public class check {
+abstract class admin{
+    String password;
+    abstract Boolean login();
+}
+public class check extends admin {
     public String password;
     public Boolean login() {
         if(this.password.equals("admin@123")) return true;

@@ -161,7 +161,7 @@ public class Theatre{
                         try {
                             PrintWriter out = new PrintWriter(new FileWriter("users.csv", true));
                             user us=new user(shows.get(i).title, shows.get(i).time,userName,userNumber,seats,shows.get(i).Screen,seats*300);
-                            out.printf("%s,%s,%s,%s,%d,%d,%d\n",us.mName,us.mTime,us.uName,us.uNum,us.mTotalSeats,us.mScreen,us.payment);       
+                            out.printf("%s,%s,%s,%s,%d,%d,%d\n",us.getmName(),us.getmTime(),us.getuName(),us.getuNum(),us.getmTotalSeats(),us.getmScreen(),us.getpayment());       
                             out.close();
                         }  catch (IOException e) {
                             e.printStackTrace();
