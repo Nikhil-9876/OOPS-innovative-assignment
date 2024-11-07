@@ -9,7 +9,6 @@ public class user {
     private int mScreen;
     private int payment;
 
-    // Default constructor
     public user() {
         this.mName = "";
         this.mTime = "";
@@ -20,7 +19,6 @@ public class user {
         this.payment = 0;
     }
 
-    // Parameterized constructor
     public user(String mName, String mTime, String uName, String uNum, int mTotalSeats, int mScreen, int payment) {
         this.mName = mName;
         this.mTime = mTime;
@@ -31,7 +29,6 @@ public class user {
         this.payment = payment;
     }
 
-    // Getter and Setter methods for mName
     public String getmName() {
         return mName;
     }
@@ -40,7 +37,6 @@ public class user {
         this.mName = mName;
     }
 
-    // Getter and Setter methods for mTime
     public String getmTime() {
         return mTime;
     }
@@ -49,7 +45,6 @@ public class user {
         this.mTime = mTime;
     }
 
-    // Getter and Setter methods for uName
     public String getuName() {
         return uName;
     }
@@ -58,7 +53,6 @@ public class user {
         this.uName = uName;
     }
 
-    // Getter and Setter methods for uNum
     public String getuNum() {
         return uNum;
     }
@@ -67,7 +61,6 @@ public class user {
         this.uNum = uNum;
     }
 
-    // Getter and Setter methods for mTotalSeats
     public int getmTotalSeats() {
         return mTotalSeats;
     }
@@ -76,7 +69,6 @@ public class user {
         this.mTotalSeats = mTotalSeats;
     }
 
-    // Getter and Setter methods for mScreen
     public int getmScreen() {
         return mScreen;
     }
@@ -85,7 +77,6 @@ public class user {
         this.mScreen = mScreen;
     }
 
-    // Getter and Setter methods for payment
     public int getpayment() {
         return payment;
     }

@@ -69,9 +69,8 @@ class Show extends ShowDetails {
         ArrayList<Integer> rows = new ArrayList<>();
         ArrayList<Integer> cols = new ArrayList<>();
         while (seats > 0) {
-            System.out.println("Enter Row of the seat you want to choose : ");
+            System.out.println("Enter row no. and column no. [7*7]:");
             int row = sc.nextInt();
-            System.out.println("Enter Column of the seat you want to choose : ");
             int column = sc.nextInt();
             if (seatmatrix[row - 1][column - 1] == 1) {
                 System.out.println("The seat is already Booked.");
